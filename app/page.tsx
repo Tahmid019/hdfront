@@ -100,7 +100,7 @@ export default function Dashboard() {
               <DialysatePanel
                 pump={state.pump}
                 dialysate={state.dialysate}
-                onUpdate={(pump) => setState((prev) => ({ ...prev, pump }))}
+                onUpdate={(pump) => setState((prev) => ({ ...prev, pump: { ...prev.pump, ...pump } }))}
               />
               <AccessPressure value={-180} />
             </div>
@@ -109,7 +109,7 @@ export default function Dashboard() {
 
         {/* footer */}
         <footer className="border-t border-border px-4 md:px-6 py-3 text-[10px] text-muted flex flex-wrap justify-between gap-2">
-          <span>© 2024 HEMO-SYNC PRO | Clinical Intelligence Systems</span>
+          <span>© 2026 HemoSync Pro</span>
           <div className="flex gap-4">
             <button className="hover:text-dark transition-colors">Privacy Policy</button>
             <button className="hover:text-dark transition-colors">Terms of Service</button>
