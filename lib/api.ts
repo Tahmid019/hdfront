@@ -6,7 +6,10 @@ export async function fetchSnapshot() {
   return r.json()
 }
 
-export async function patchSection(section: string, payload: Record<string, unknown>) {
+export async function patchSection<T extends Record<string, unknown>>(
+  section: string,
+  payload: T
+) {
   const r = await fetch(`${BASE}/iot/ingest/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -16,7 +19,7 @@ export async function patchSection(section: string, payload: Record<string, unkn
   return r.json()
 }
 
-export async function patchBulk(payload: Record<string, unknown>) {
+export async function patchBulk<T extends Record<string, unknown>>(payload: T) {
   const r = await fetch(`${BASE}/iot/ingest/bulk/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
