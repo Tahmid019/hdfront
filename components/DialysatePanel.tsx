@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { BarChart2, Waves, Droplets, Zap } from 'lucide-react'
 import { patchSection } from '@/lib/api'
 
-interface Pump {
+interface Pump extends Record<string, unknown> {
   blood_flow_rate: number
   dialysate_flow_rate: number
   ultrafiltration_rate: number
