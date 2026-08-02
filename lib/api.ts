@@ -1,5 +1,6 @@
 const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
+
 export async function fetchSnapshot() {
   const r = await fetch(`${BASE}/api/snapshot/`, { cache: 'no-store' })
   if (!r.ok) throw new Error('snapshot fetch failed')
@@ -30,3 +31,4 @@ export async function patchBulk<T extends Record<string, unknown>>(payload: T) {
 }
 
 export const WS_URL = (process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000') + '/ws/monitor/'
+
