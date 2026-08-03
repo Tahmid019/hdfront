@@ -1,4 +1,4 @@
-import { WS_URL } from "@/lib/api";
+import { getWsUrl } from "@/lib/api";
 
 export interface WSMessage<T = unknown> {
   source: string;
@@ -13,39 +13,46 @@ export class MonitorWS {
 
   constructor(private onMessage: MessageHandler) {}
 
-  connect() {
-    console.log("Creating WebSocket:", WS_URL);
+  async connect() {
+    try {
+      // Dynamically fetch URL with fresh JWT query token
+      const wsUrl = await getWsUrl();
+      console.log("Creating WebSocket connection...");
 
-    this.ws = new WebSocket(WS_URL);
+      this.ws = new WebSocket(wsUrl);
 
-    this.ws.onopen = () => {
-      console.log("✅ WebSocket Connected");
-    };
+      this.ws.onopen = () => {
+        console.log("✅ WebSocket Connected");
+      };
 
-    this.ws.onmessage = (event) => {
-      try {
-        const message: WSMessage = JSON.parse(event.data);
+      this.ws.onmessage = (event) => {
+        try {
+          const message: WSMessage = JSON.parse(event.data);
+          console.log("📩 WS Message:", message);
+          this.onMessage(message);
+        } catch (err) {
+          console.error("Invalid WebSocket message:", err);
+        }
+      };
 
-        console.log("📩 WS Message:", message);
+      this.ws.onerror = (event) => {
+        console.error("❌ WebSocket Error:", event);
+      };
 
-        this.onMessage(message);
-      } catch (err) {
-        console.error("Invalid WebSocket message:", err);
-      }
-    };
+      this.ws.onclose = (event) => {
+        console.warn("🔌 WebSocket Closed:", event.code, event.reason);
 
-    this.ws.onerror = (event) => {
-      console.error("❌ WebSocket Error:", event);
-    };
-
-    this.ws.onclose = (event) => {
-      console.warn("🔌 WebSocket Closed:", event.code, event.reason);
-
+        if (this.reconnect) {
+          console.log("Reconnecting in 2 seconds...");
+          setTimeout(() => this.connect(), 2000);
+        }
+      };
+    } catch (err) {
+      console.error("Failed to resolve WebSocket URL/Session:", err);
       if (this.reconnect) {
-        console.log("Reconnecting in 2 seconds...");
         setTimeout(() => this.connect(), 2000);
       }
-    };
+    }
   }
 
   disconnect() {
@@ -54,9 +61,7 @@ export class MonitorWS {
   }
 
   send(data: unknown) {
-    if (!this.ws) return;
-
-    if (this.ws.readyState === WebSocket.OPEN) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(data));
     } else {
       console.warn("WebSocket is not connected.");

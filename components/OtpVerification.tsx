@@ -161,13 +161,13 @@ export default function OtpVerification({ email, onBack, initialRole }: OtpVerif
         if (profileError || !profile) {
           // Fallback: If profile table record doesn't exist (e.g. database trigger didn't execute),
           // manually create it from the client-side session context.
-          const determinedRole = initialRole || data.session.user.user_metadata?.role || 'user'
+          const determinedRole = initialRole || data.session.user.user_metadata?.role || 'patient'
           const newProfile = {
             id: data.session.user.id,
             email: data.session.user.email!,
             role: determinedRole,
-            full_name: data.session.user.user_metadata?.full_name || '',
-          }
+            full_name: data.session.user.user_metadata?.full_name || "",
+          };
           
           const { error: insertError } = await supabase
             .from('profiles')
@@ -181,8 +181,7 @@ export default function OtpVerification({ email, onBack, initialRole }: OtpVerif
           finalRole = profile.role
         }
 
-        const redirectPath = `/${finalRole || 'user'}`
-        router.replace(redirectPath)
+        router.replace("/dashboard")
         router.refresh()
       } else {
         throw new Error('Verification completed but no active session was established. Please sign in.')
