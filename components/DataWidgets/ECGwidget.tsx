@@ -7,6 +7,7 @@ import WidgetBody from "@/Widget/WidgetBody";
 import Waveform from "@/visualizations/Waveform";
 
 import { useMonitor } from "@/providers/MonitorProvider";
+import { logger } from "@/lib/logger";
 
 interface ECGData {
   waveform: number[];
@@ -28,7 +29,7 @@ interface MonitorData {
 export default function ECGWidget() {
   const { data } = useMonitor();
 
-  console.log("Monitor:", data);
+  logger.log("Monitor:", data);
 
   const ecg = (data as MonitorData | null)?.ecg;
 

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Activity, Loader2, ArrowRight, ArrowLeft, RefreshCw, KeyRound, Mail } from 'lucide-react'
+import { logger } from '@/lib/logger'
 
 interface OtpVerificationProps {
   email: string
@@ -114,7 +115,7 @@ export default function OtpVerification({ email, onBack, initialRole }: OtpVerif
       setCooldown(60)
       setSuccessMessage('A fresh verification code has been dispatched.')
     } catch (err: any) {
-      console.error('Send OTP error:', err)
+      logger.error('Send OTP error:', err)
       setError(err.message || 'Failed to dispatch verification code.')
     } finally {
       setLoading(false)
@@ -174,7 +175,7 @@ export default function OtpVerification({ email, onBack, initialRole }: OtpVerif
             .insert(newProfile)
             
           if (insertError) {
-            console.error('Client-side profile creation error:', insertError)
+            logger.error('Client-side profile creation error:', insertError)
           }
           finalRole = determinedRole
         } else {
@@ -187,7 +188,7 @@ export default function OtpVerification({ email, onBack, initialRole }: OtpVerif
         throw new Error('Verification completed but no active session was established. Please sign in.')
       }
     } catch (err: any) {
-      console.error('OTP verification error:', err)
+      logger.error('OTP verification error:', err)
       setError(err.message || 'Verification failed. Please check the code and try again.')
       setLoading(false)
     }
@@ -218,7 +219,7 @@ export default function OtpVerification({ email, onBack, initialRole }: OtpVerif
         inputRefs.current[0]?.focus()
       }, 50)
     } catch (err: any) {
-      console.error('Resend OTP error:', err)
+      logger.error('Resend OTP error:', err)
       setError(err.message || 'Failed to dispatch a new verification code.')
     } finally {
       setResending(false)

@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { MonitorWS } from "@/services/monitorWS";
+import { logger } from "@/lib/logger";
 
 interface MonitorContextType {
   data: unknown;
@@ -27,7 +28,7 @@ export function MonitorProvider({
 
   useEffect(() => {
     const socket = new MonitorWS(({ data }) => {
-      console.log("WS:", data);
+      logger.log("WS:", data);
       setData(data);
     });
 

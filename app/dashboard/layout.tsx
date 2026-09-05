@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import AppHeader from "@/components/Dashboard/AppHeader";
+import { logger } from "@/lib/logger";
 
 interface DashboardUser {
   name: string;
@@ -47,7 +48,7 @@ export default function DashboardLayout({
       router.replace("/login");
       router.refresh();
     } catch (err) {
-      console.error("Logout failed:", err);
+      logger.error("Logout failed:", err);
     }
   };
 

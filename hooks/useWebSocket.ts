@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { logger } from "@/lib/logger";
 
 const WS_BASE_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws";
 
@@ -21,7 +22,7 @@ export function useDjangoWebSocket(path: string, onMessage: (data: any) => void)
         onMessage(parsed);
       };
 
-      ws.onerror = (error) => console.error("WebSocket Error:", error);
+      ws.onerror = (error) => logger.error("WebSocket Error:", error);
       
       socketRef.current = ws;
     };

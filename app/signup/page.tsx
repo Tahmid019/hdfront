@@ -16,6 +16,7 @@ import {
   UserCheck,
 } from 'lucide-react'
 import OtpVerification from '@/components/OtpVerification'
+import { logger } from '@/lib/logger'
 
 type Role = 'doctor' | 'technician' | 'patient'
 
@@ -58,7 +59,7 @@ export default function SignupPage() {
         setShowOtpVerification(true)
       }
     } catch (err: unknown) {
-      console.error('Registration error details:', err)
+      logger.error('Registration error details:', err)
       if (err instanceof Error) {
         setError(err.message)
       } else {

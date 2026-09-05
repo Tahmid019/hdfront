@@ -3,3 +3,5 @@ node_modules/
 .env.local
 *.zip
 .env
+.env.loacl.example
+.env.production

@@ -30,7 +30,7 @@ export default function LoginPage() {
 
       if (error) throw error
 
-      router.replace('/dashboard')
+      router.replace('/technician')
       router.refresh()
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Login failed.')
