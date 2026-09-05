@@ -182,7 +182,7 @@ export default function OtpVerification({ email, onBack, initialRole }: OtpVerif
           finalRole = profile.role
         }
 
-        router.replace("/dashboard")
+        router.replace("/technician")
         router.refresh()
       } else {
         throw new Error('Verification completed but no active session was established. Please sign in.')
