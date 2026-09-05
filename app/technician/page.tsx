@@ -131,16 +131,30 @@ export default function TechnicianDashboard() {
         </div>
       </header>
 
-    <MonitorProvider>
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 xl:col-span-8">
+      <MonitorProvider>
+
+        <div className="grid grid-cols-12 gap-6 p-4 sm:p-6 lg:p-8">
+          <div className="col-span-12 lg:col-span-8">
             <ECGWidget />
+          </div>
+
+          <div className="col-span-12 lg:col-span-4">
             <RespirationWidget />
+          </div>
+
+          <div className="col-span-12 md:col-span-6 lg:col-span-4">
             <VitalsWidget />
+          </div>
+
+          <div className="col-span-12 md:col-span-6 lg:col-span-4">
             <SessionWidget />
+          </div>
+
+          <div className="col-span-12 lg:col-span-4">
             <FluidBalanceWidget />
           </div>
         </div>
+
       </MonitorProvider>
 
       {/* Main Grid */}
